@@ -1,16 +1,21 @@
 import onesignal from 'onesignal';
-import {oneSignalCredentials} from './constants';
+import { oneSignalCredentials } from './constants';
 
 let client = onesignal(oneSignalCredentials.apikey, oneSignalCredentials.appId, true);
 
-exports.addDevice = function(deviceId, osType){
-  client.addDevice(deviceId, osType);
-};
+class NotificationService {
+  addDevice(deviceId, osType) {
+    return client.addDevice(deviceId, osType);
+  }
 
-exports.updateDevice = function(onesignalId, newId){
-  client.editDevice(onesignalId, newId);
-};
+  updateDevice(onesignalId, newId) {
+    client.editDevice(onesignalId, newId);
+  }
 
-exports.sendNotifications = function(message, data, ids=[]){
-  client.createNotification(message, signal, ids);
-};
+  sendNotifications(message, data, ids = []) {
+    client.createNotification(message, data, ids);
+  }
+}
+
+let notificationService = new NotificationService();
+export default notificationService;

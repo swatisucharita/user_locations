@@ -13,17 +13,25 @@ let locationSchema = new Schema({
     id: String,
     displayName: String,
     phoneNumbers: [{
-      phoneType: String,
-      phoneValue: String
+      phoneValue: String,
+      phoneType: String
     }],
     photos: [{
-      photoType: String,
-      photoValue: String
+      photoValue: String,
+      photoType: String
     }]
   },
   userId: String,
   created_at: Date,
   updated_at: Date
+});
+
+locationSchema.pre("save", function(next){
+  if (!this.created_at){
+    this.created_at = (new Date()).toUTCString();
+  }
+  this.updated_at = (new Date()).toUTCString();
+  next();
 });
 
 let Location = mongoose.model("Location", locationSchema);
